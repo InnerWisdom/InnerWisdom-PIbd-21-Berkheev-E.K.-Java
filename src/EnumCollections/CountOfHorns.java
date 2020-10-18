@@ -1,3 +1,5 @@
+package EnumCollections;
+
 public enum CountOfHorns {
     one,
     three,
@@ -5,11 +7,11 @@ public enum CountOfHorns {
 
     public static CountOfHorns getCount(int digit) {
         switch (digit) {
-            case 1:
+            case 0:
                 return CountOfHorns.one;
-            case 2:
+            case 1:
                 return CountOfHorns.two;
-            case 3:
+            case 2:
                 return CountOfHorns.three;
         }
         return null;
