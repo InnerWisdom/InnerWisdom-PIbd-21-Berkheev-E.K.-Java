@@ -6,11 +6,11 @@ import Logics.IAdditions;
 
 import java.awt.*;
 
-public class ShoeHorns implements IAdditions {
+public class HornsOval implements IAdditions {
 
     private CountOfHorns count;
 
-    public ShoeHorns(int digit) {
+    public HornsOval(int digit) {
         setDigit(digit);
     }
 

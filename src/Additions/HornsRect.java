@@ -5,11 +5,11 @@ import Logics.IAdditions;
 
 import java.awt.*;
 
-public class TypeOfCore implements IAdditions {
+public class HornsRect implements IAdditions {
 
     private CountOfHorns count;
 
-    public TypeOfCore(int digit) {
+    public HornsRect(int digit) {
         setDigit(digit);
     }
 

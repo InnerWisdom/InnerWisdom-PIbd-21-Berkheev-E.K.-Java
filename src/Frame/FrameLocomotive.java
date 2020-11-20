@@ -62,12 +62,12 @@ public class FrameLocomotive {
         btnLeft.addActionListener(e -> setDirection(btnLeft));
         btnRight.addActionListener(e -> setDirection(btnRight));
 
-        listOfAdditions = new JComboBox<>(new String[]{"Количество рогов", "Форма", "Количество гудков"});
+        listOfAdditions = new JComboBox<>(new String[]{"Ромб", "Квадрат", "Овал"});
         frame.getContentPane().add(listOfAdditions);
         listOfAdditions.setBounds(10, 45, 180, 30);
         listOfAdditions.addActionListener(e -> changeCounts());
 
-        listOfCount = new JComboBox<>(new String[]{"1 рог", "2 рога", "3 рога"});
+        listOfCount = new JComboBox<>(new String[]{"1 рог-ромб", "2 рога-ромб", "3 рога-ромб"});
         frame.getContentPane().add(listOfCount);
         listOfCount.setBounds(200, 45, 180, 30);
 
@@ -114,19 +114,19 @@ public class FrameLocomotive {
         listOfCount.removeAllItems();
         switch (listOfAdditions.getSelectedIndex()) {
             case 0:
-                listOfCount.addItem("1 рог");
-                listOfCount.addItem("2 рога");
-                listOfCount.addItem("3 рога");
+                listOfCount.addItem("1 рог-ромб");
+                listOfCount.addItem("2 рога-ромба");
+                listOfCount.addItem("3 рога-ромба");
                 break;
             case 1:
-                listOfCount.addItem("Прямоугольный");
-                listOfCount.addItem("Овальный");
-                listOfCount.addItem("Комбинированный");
+                listOfCount.addItem("1 рог-квадрат");
+                listOfCount.addItem("2 рога-квадрата");
+                listOfCount.addItem("3 рога-квадрата");
                 break;
             case 2:
-                listOfCount.addItem("1 гудок");
-                listOfCount.addItem("2 гудка");
-                listOfCount.addItem("3 гудка");
+                listOfCount.addItem("1 рог-овал");
+                listOfCount.addItem("2 рога-овала");
+                listOfCount.addItem("3 рога-овала");
                 break;
         }
     }
