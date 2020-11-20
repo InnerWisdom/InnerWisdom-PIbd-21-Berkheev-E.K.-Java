@@ -62,12 +62,12 @@ public class FrameLocomotive {
         btnLeft.addActionListener(e -> setDirection(btnLeft));
         btnRight.addActionListener(e -> setDirection(btnRight));
 
-        listOfAdditions = new JComboBox<>(new String[]{"Количество рогов", "Форма", "Количество гудков"});
+        listOfAdditions = new JComboBox<>(new String[]{"Ромб", "Квадрат", "Овал"});
         frame.getContentPane().add(listOfAdditions);
         listOfAdditions.setBounds(10, 45, 180, 30);
         listOfAdditions.addActionListener(e -> changeCounts());
 
-        listOfCount = new JComboBox<>(new String[]{"1 рог", "2 рога", "3 рога"});
+        listOfCount = new JComboBox<>(new String[]{"1 рог-ромб", "2 рога-ромб", "3 рога-ромб"});
         frame.getContentPane().add(listOfCount);
         listOfCount.setBounds(200, 45, 180, 30);
 

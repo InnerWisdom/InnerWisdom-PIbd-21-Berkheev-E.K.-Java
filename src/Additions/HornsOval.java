@@ -6,11 +6,11 @@ import Logics.IAdditions;
 
 import java.awt.*;
 
-public class HornOval implements IAdditions {
+public class HornsOval implements IAdditions {
 
     private CountOfHorns count;
 
-    public HornOval(int digit) {
+    public HornsOval(int digit) {
         setDigit(digit);
     }
 

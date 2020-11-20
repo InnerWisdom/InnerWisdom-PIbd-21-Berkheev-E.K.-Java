@@ -1,9 +1,12 @@
 package Logics;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Depo<T extends ITransport, A extends IAdditions> {
-    private final Object[] places;
+public class Depo<T extends Locomotive, I extends IAdditions> {
+    private final List<T> places;
+    private final int maxCount;
     private final int placeWidth = 250;
     private final int placeHeight = 150;
     private final int frameWidth;
@@ -14,53 +17,37 @@ public class Depo<T extends ITransport, A extends IAdditions> {
         this.frameHeight = frameHeight;
         int columnsCount = frameWidth / placeWidth;
         int rowsCount = frameHeight / placeHeight;
-        places = new Object[columnsCount * rowsCount];
+        maxCount = columnsCount * rowsCount;
+        places = new ArrayList<>();
     }
 
-    public boolean append(T transport) {
-        int margin = 85;
-        int rowsCount = frameHeight / placeHeight;
-        for (int i = 0; i < places.length; i++) {
-            if (places[i] == null) {
-                transport.setPosition(margin-45 + placeWidth * (i / rowsCount),
-                        margin + placeHeight * (i % rowsCount), frameWidth, frameHeight);
-                places[i] = transport;
-                return true;
-            }
+    public boolean add(T locomotive) {
+        if (places.size() < maxCount) {
+            places.add(locomotive);
+            return true;
         }
         return false;
     }
 
     public T remove(int index) {
-        if (index >= 0 && index < places.length && places[index] != null) {
-            Object temp = places[index];
-            places[index] = null;
-            return (T) (temp);
+        if (index >= 0 && index < maxCount && places.get(index) != null) {
+            T locomotive = places.get(index);
+            places.remove(index);
+            return locomotive;
         } else {
             return null;
         }
     }
 
-    public boolean Equals(int count) {
-        int placesCount = 0;
-        for (Object occupied : places) {
-            if (occupied != null) {
-                placesCount++;
-            }
-        }return placesCount == count;
-    }
-
-    public boolean notEquals(int count) {
-        return !Equals(count);
-    }
-
     public void draw(Graphics2D g) {
+        int margin = 80;
+        int rowsCount = frameHeight / placeHeight;
+
         drawMarking(g);
-        for (Object place : places) {
-            if (place != null) {
-                T placeT = (T) place;
-                placeT.draw(g);
-            }
+        for (int i = 0; i < places.size(); i++) {
+            places.get(i).setPosition(margin + placeWidth * (i / rowsCount),
+                    margin + placeHeight * (i % rowsCount), frameWidth, frameHeight);
+            places.get(i).draw(g);
         }
     }
 
@@ -68,7 +55,7 @@ public class Depo<T extends ITransport, A extends IAdditions> {
         int margin = 15;
         int rowsCount = frameHeight / placeHeight;
         int columnsCount = frameWidth / placeWidth;
-        g.setStroke(new BasicStroke(1));
+        g.setStroke(new BasicStroke(3));
         for (int i = 0; i < rowsCount; i++) {
             for (int j = 0; j < columnsCount; j++) {
                 g.drawLine(margin + j * placeWidth, margin + i * placeHeight, margin + (j + 1) * placeWidth, margin + i * placeHeight);
@@ -80,5 +67,12 @@ public class Depo<T extends ITransport, A extends IAdditions> {
         for (int j = 0; j < columnsCount; j++) {
             g.drawLine(margin + j * placeWidth, margin + rowsCount * placeHeight, margin + (j + 1) * placeWidth, margin + rowsCount * placeHeight);
         }
+    }
+
+    public T get(int index) {
+        if (index >= 0 && index < places.size()) {
+            return places.get(index);
+        }
+        return null;
     }
 }
