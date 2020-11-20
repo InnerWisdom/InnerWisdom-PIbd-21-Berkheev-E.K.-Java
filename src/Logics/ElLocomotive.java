@@ -4,7 +4,7 @@ import java.awt.*;
 
 import Additions.Horns;
 import Additions.HornsRect;
-import Additions.HornOval;
+import Additions.HornsOval;
 
 public class ElLocomotive extends Locomotive {
 
@@ -32,7 +32,7 @@ public class ElLocomotive extends Locomotive {
                 additions = new HornsRect(digit);
                 break;
             case 2:
-                additions = new HornOval(digit);
+                additions = new HornsOval(digit);
                 break;
         }
     }
