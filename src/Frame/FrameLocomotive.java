@@ -3,6 +3,7 @@ package Frame;
 import EnumCollections.Direction;
 import Logics.ElLocomotive;
 import Logics.Locomotive;
+import Logics.ITransport;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +12,16 @@ public class FrameLocomotive {
     private final JFrame frame;
     private final JComboBox<String> listOfCount;
     private final JComboBox<String> listOfAdditions;
-    private DrawPanel drawPanel;
+    private final DrawPanel drawPanel;
 
+    public void setLocomotive(ITransport locomotive) {
+        locomotive.setPosition((int) (10 + Math.random() * 90), (int) (100 + Math.random() * 100), frame.getWidth(), frame.getHeight());
+        drawPanel.setLocomotive(locomotive);
+        frame.repaint();
+    }
     public FrameLocomotive() {
         frame = new JFrame("Электровоз");
         frame.setSize(900, 500);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
 
@@ -26,7 +31,7 @@ public class FrameLocomotive {
         Icon down = new ImageIcon("Rec\\Down.png");
 
         JButton btnCreateLocomotive = new JButton("Создать Локомотив");
-        JButton btnCreateWagon = new JButton("Создать Электровоз");
+        JButton btnCreateElLocomotive = new JButton("Создать Электровоз");
         JButton btnUp = new JButton(up);
         btnUp.setName("up");
         JButton btnDown = new JButton(down);
@@ -37,21 +42,21 @@ public class FrameLocomotive {
         btnRight.setName("right");
 
         frame.getContentPane().add(btnCreateLocomotive);
-        frame.getContentPane().add(btnCreateWagon);
+        frame.getContentPane().add(btnCreateElLocomotive);
         frame.getContentPane().add(btnUp);
         frame.getContentPane().add(btnDown);
         frame.getContentPane().add(btnLeft);
         frame.getContentPane().add(btnRight);
 
         btnCreateLocomotive.setBounds(10, 10, 180, 30);
-        btnCreateWagon.setBounds(200, 10, 180, 30);
+        btnCreateElLocomotive.setBounds(200, 10, 180, 30);
         btnUp.setBounds(805, 375, 30, 30);
         btnDown.setBounds(805, 410, 30, 30);
         btnLeft.setBounds(770, 410, 30, 30);
         btnRight.setBounds(840, 410, 30, 30);
 
         btnCreateLocomotive.addActionListener(e -> setLocomotive());
-        btnCreateWagon.addActionListener(e -> setElLocomotive());
+        btnCreateElLocomotive.addActionListener(e -> setElLocomotive());
         btnUp.addActionListener(e -> setDirection(btnUp));
         btnDown.addActionListener(e -> setDirection(btnDown));
         btnLeft.addActionListener(e -> setDirection(btnLeft));
@@ -64,15 +69,15 @@ public class FrameLocomotive {
 
         listOfCount = new JComboBox<>(new String[]{"1 рог", "2 рога", "3 рога"});
         frame.getContentPane().add(listOfCount);
-        listOfCount.setBounds(210, 45, 210, 30);
-    }
+        listOfCount.setBounds(200, 45, 180, 30);
 
-    public void addDrawPanel(DrawPanel panel) {
-        drawPanel = panel;
+        drawPanel = new DrawPanel();
         frame.getContentPane().add(drawPanel);
         drawPanel.setBounds(0, 0, 900, 500);
         frame.repaint();
+
     }
+
 
     private void setDirection(JButton button) {
         String name = button.getName();
