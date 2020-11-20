@@ -1,15 +1,16 @@
 package Additions;
 
+
 import EnumCollections.CountOfHorns;
 import Logics.IAdditions;
 
 import java.awt.*;
 
-public class HornsRect implements IAdditions {
+public class ShoeHorns implements IAdditions {
 
     private CountOfHorns count;
 
-    public HornsRect(int digit) {
+    public ShoeHorns(int digit) {
         setDigit(digit);
     }
 
@@ -19,12 +20,13 @@ public class HornsRect implements IAdditions {
 
     public void draw(Graphics g, Color color, int x, int y) {
         g.setColor(color);
-        g.drawRect(x - 14, y - 25, 35, 26);
+        g.drawOval(x-14,y-25,35,26);
         if (count == CountOfHorns.two || count == CountOfHorns.three) {
-            g.drawRect(x + 44, y - 25, 35, 26);
+            g.drawOval(x+44,y-25,35,26);
             if (count == CountOfHorns.three) {
-                g.drawRect(x + 94, y - 25, 35, 26);
+                g.drawOval(x+94,y-25,35,26);
             }
         }
+
     }
 }

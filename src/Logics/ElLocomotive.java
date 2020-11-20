@@ -3,8 +3,8 @@ package Logics;
 import java.awt.*;
 
 import Additions.Horns;
-import Additions.HornsRect;
-import Additions.HornOval;
+import Additions.TypeOfCore;
+import Additions.ShoeHorns;
 
 public class ElLocomotive extends Locomotive {
 
@@ -29,10 +29,10 @@ public class ElLocomotive extends Locomotive {
                 additions = new Horns(digit);
                 break;
             case 1:
-                additions = new HornsRect(digit);
+                additions = new TypeOfCore(digit);
                 break;
             case 2:
-                additions = new HornOval(digit);
+                additions = new ShoeHorns(digit);
                 break;
         }
     }
