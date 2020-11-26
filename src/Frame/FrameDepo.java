@@ -33,7 +33,7 @@ public class FrameDepo {
 
         drawPanelDepo = new DrawPanelDepo(depoCollection);
         JButton buttonCreateLocomotive = new JButton("Создать локомотив");
-        JButton buttonCreateElLocomotive = new JButton("Создать электровоз");
+        JButton buttonAppendLocomotive = new JButton("Вставить");
 
         JPanel takeGroupBox = new JPanel();
         Border centerBorder = BorderFactory.createTitledBorder("Забрать локомотив");
@@ -53,10 +53,10 @@ public class FrameDepo {
         JButton buttonAddDepo = new JButton("Добавить депо");
         JButton buttonRemoveDepo = new JButton("Удалить депо");
 
-        frame.getContentPane().add(buttonCreateElLocomotive);
         frame.getContentPane().add(buttonCreateLocomotive);
         frame.getContentPane().add(buttonMoveToLinkedList);
         frame.getContentPane().add(drawPanelDepo);
+        frame.getContentPane().add(buttonAppendLocomotive);
         takeGroupBox.add(fieldTakeIndex);
         takeGroupBox.add(buttonMoveToLinkedList);
         takeGroupBox.add(buttonGetFromLinkedList);
@@ -71,7 +71,7 @@ public class FrameDepo {
 
         drawPanelDepo.setBounds(0, 0, 1100, 850);
         buttonCreateLocomotive.setBounds(770, 20, 200, 30);
-        buttonCreateElLocomotive.setBounds(770, 60, 200, 30);
+        buttonAppendLocomotive.setBounds(770, 60, 200, 30);
 
         takeGroupBox.setBounds(770, 100, 200, 140);
         takeGroupBox.setLayout(null);
@@ -89,7 +89,6 @@ public class FrameDepo {
         listBoxDepos.setBounds(20, 140, 160, 140);
 
         buttonCreateLocomotive.addActionListener(e -> createLocomotive());
-        buttonCreateElLocomotive.addActionListener(e -> createElLocomotive());
         buttonMoveToLinkedList.addActionListener(e -> takeLocomotive());
         buttonGetFromLinkedList.addActionListener(e -> moveToFrame());
         buttonAddDepo.addActionListener(e -> addDepo());
@@ -100,40 +99,16 @@ public class FrameDepo {
     }
 
     private void createLocomotive() {
-        if (listBoxDepos.getSelectedIndex() >= 0) {
-            JColorChooser colorDialog = new JColorChooser();
-            JOptionPane.showMessageDialog(frame, colorDialog);
-            if (colorDialog.getColor() != null) {
-                Locomotive locomotive = new Locomotive(100, 1000, colorDialog.getColor());
-                if (depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)) {
-                    frame.repaint();
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Депо переполнено");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(frame, "Депо не выбрано", "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
+        FormLocomotiveConfig formLocomotiveConfig = new FormLocomotiveConfig(this);
     }
 
-    private void createElLocomotive() {
-        if (listBoxDepos.getSelectedIndex() >= 0) {
-            JColorChooser colorDialog = new JColorChooser();
-            JOptionPane.showMessageDialog(frame, colorDialog);
-            if (colorDialog.getColor() != null) {
-                JColorChooser otherColorDialog = new JColorChooser();
-                JOptionPane.showMessageDialog(frame, otherColorDialog);
-                if (otherColorDialog.getColor() != null) {
-                    Locomotive locomotive = new ElLocomotive(100, 1000, colorDialog.getColor(), otherColorDialog.getColor(), true, true, true, 0, 0);
-                    if (depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)) {
-                        frame.repaint();
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Депо переполнено");
-                    }
-                }
+    public void addLocomotive(Locomotive locomotive) {
+        if (locomotive != null && listBoxDepos.getSelectedIndex() >= 0) {
+            if (((depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)))) {
+                frame.repaint();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Самолет не удалось поставить");
             }
-        } else {
-            JOptionPane.showMessageDialog(frame, "Депо не выбрано", "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
 
