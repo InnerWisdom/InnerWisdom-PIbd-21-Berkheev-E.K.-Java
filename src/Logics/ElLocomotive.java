@@ -13,8 +13,10 @@ public class ElLocomotive extends Locomotive {
     private boolean frontBumper;
     private boolean upperPipe;
     private IAdditions additions;
+    private int digit;
+    private int addition;
 
-    public ElLocomotive(int maxSpeed, float weight, Color mainColor, Color dopColor,
+    public ElLocomotive(int maxSpeed, int weight, Color mainColor, Color dopColor,
                         boolean backLine, boolean frontBumper, boolean upperPipe, int addition, int digit) {
         super(maxSpeed, weight, mainColor, 200, 100);
         this.maxSpeed = maxSpeed;
@@ -24,16 +26,50 @@ public class ElLocomotive extends Locomotive {
         this.backLine = backLine;
         this.frontBumper = frontBumper;
         this.upperPipe = upperPipe;
+        this.digit = digit;
         switch (addition) {
             case 0:
-                additions = new Horns(digit);
+                this.additions = new Horns(digit);
+                this.addition=addition;
+                this.digit=digit;
                 break;
             case 1:
-                additions = new HornsRect(digit);
+                this.additions = new HornsRect(digit);
+                this.addition=addition;
+                this.digit=digit;
                 break;
             case 2:
-                additions = new HornsOval(digit);
+                this.additions = new HornsOval(digit);
+                this.addition=addition;
+                this.digit=digit;
                 break;
+        }
+    }
+
+    public ElLocomotive(String info) {
+        super(info);
+        String[] infoStrs = info.split(separator);
+        if (infoStrs.length == 9) {
+            maxSpeed = Integer.parseInt(infoStrs[0]);
+            weight = Integer.parseInt(infoStrs[1]);
+            String[] mainColorStrs = infoStrs[2].split(separatorForColor);
+            mainColor = new Color(Integer.parseInt(mainColorStrs[0]), Integer.parseInt(mainColorStrs[1]), Integer.parseInt(mainColorStrs[2]));
+            String[] dopColorStrs = infoStrs[3].split(separatorForColor);
+            dopColor = new Color(Integer.parseInt(dopColorStrs[0]), Integer.parseInt(dopColorStrs[1]), Integer.parseInt(dopColorStrs[2]));
+            backLine = Boolean.parseBoolean(infoStrs[4]);
+            frontBumper = Boolean.parseBoolean(infoStrs[5]);
+            upperPipe = Boolean.parseBoolean(infoStrs[6]);
+            switch (infoStrs[8]) {
+                case "0":
+                    this.additions = new Horns(Integer.parseInt(infoStrs[7]));
+                    break;
+                case "1":
+                    this.additions = new HornsRect(Integer.parseInt(infoStrs[7]));
+                    break;
+                case "2":
+                    this.additions = new HornsOval(Integer.parseInt(infoStrs[7]));
+                    break;
+            }
         }
     }
 
@@ -92,4 +128,11 @@ public class ElLocomotive extends Locomotive {
 
         additions.draw(g, getOtherColor(), posX, posY);
     }
+    @Override
+    public String toString() {
+        return super.toString() + separator + dopColor.getRed() + separatorForColor + dopColor.getGreen() +
+                separatorForColor + dopColor.getBlue() + separator + backLine + separator + frontBumper
+        + separator + upperPipe + separator + digit + separator + addition ;
+    }
+
 }
