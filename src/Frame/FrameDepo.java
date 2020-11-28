@@ -50,10 +50,10 @@ public class FrameDepo {
         JMenuItem loadAllDataItem = new JMenuItem("Загрузить целиком");
         loadMenu.add(loadAllDataItem);
 
-        JMenuItem saveChosenAirfieldItem = new JMenuItem("Сохранить один аэродром");
+        JMenuItem saveChosenAirfieldItem = new JMenuItem("Сохранить одно депо");
         saveMenu.add(saveChosenAirfieldItem);
 
-        JMenuItem loadChosenAirfieldItem = new JMenuItem("Загрузить один аэродром");
+        JMenuItem loadChosenAirfieldItem = new JMenuItem("Загрузить одно депо");
         loadMenu.add(loadChosenAirfieldItem);
 
         depoCollection = new DepoCollection(900, 800);
