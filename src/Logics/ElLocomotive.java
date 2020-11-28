@@ -41,7 +41,7 @@ public class ElLocomotive extends Locomotive {
         return dopColor;
     }
 
-    private void setOtherColor(Color otherColor) {
+    public void setOtherColor(Color otherColor) {
         this.dopColor = otherColor;
     }
 
