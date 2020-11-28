@@ -4,6 +4,8 @@ import Logics.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -28,6 +30,31 @@ public class FrameDepo {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLayout(null);
+
+
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+
+        JMenu fileMenu = new JMenu("Файл");
+        menuBar.add(fileMenu);
+
+        JMenu saveMenu = new JMenu("Сохранить");
+        fileMenu.add(saveMenu);
+
+        JMenu loadMenu = new JMenu("Загрузить");
+        fileMenu.add(loadMenu);
+
+        JMenuItem saveAllDataItem = new JMenuItem("Сохранить целиком");
+        saveMenu.add(saveAllDataItem);
+
+        JMenuItem loadAllDataItem = new JMenuItem("Загрузить целиком");
+        loadMenu.add(loadAllDataItem);
+
+        JMenuItem saveChosenAirfieldItem = new JMenuItem("Сохранить одно депо");
+        saveMenu.add(saveChosenAirfieldItem);
+
+        JMenuItem loadChosenAirfieldItem = new JMenuItem("Загрузить одно депо");
+        loadMenu.add(loadChosenAirfieldItem);
 
         depoCollection = new DepoCollection(900, 800);
 
@@ -88,6 +115,35 @@ public class FrameDepo {
         buttonRemoveDepo.setBounds(20, 100, 160, 30);
         listBoxDepos.setBounds(20, 140, 160, 140);
 
+        saveChosenAirfieldItem.addActionListener(e -> {
+            try {
+                saveChosenDepo();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        loadChosenAirfieldItem.addActionListener(e -> {
+            try {
+                loadChosenDepo();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        saveAllDataItem.addActionListener(e -> {
+            try {
+                saveAll();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        loadAllDataItem.addActionListener(e -> {
+            try {
+                loadAll();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         buttonCreateLocomotive.addActionListener(e -> createLocomotive());
         buttonMoveToLinkedList.addActionListener(e -> takeLocomotive());
         buttonGetFromLinkedList.addActionListener(e -> moveToFrame());
@@ -107,7 +163,7 @@ public class FrameDepo {
             if (((depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)))) {
                 frame.repaint();
             } else {
-                JOptionPane.showMessageDialog(frame, "Самолет не удалось поставить");
+                JOptionPane.showMessageDialog(frame, "Локомотив не удалось поставить");
             }
         }
     }
@@ -137,6 +193,72 @@ public class FrameDepo {
             FrameLocomotive frameLocomotive = new FrameLocomotive();
             frameLocomotive.setLocomotive(Objects.requireNonNull(locomotiveQueue.poll()));
             frame.repaint();
+        }
+    }
+
+    private void saveAll() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showDialog(frame, "Save Depo");
+        if (result == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().toString();
+            if (filename.contains(".txt")) {
+                depoCollection.saveAllData(filename);
+            } else {
+                depoCollection.saveAllData(filename + ".txt");
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "Не удалось сохранить файл");
+        }
+    }
+
+    private void saveChosenDepo() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showDialog(frame, "Save Depo");
+        if (result == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().toString();
+            if (filename.contains(".txt")) {
+                depoCollection.saveChosenDepoData(filename, listBoxDepos.getSelectedValue());
+            } else {
+                depoCollection.saveChosenDepoData(filename + ".txt", listBoxDepos.getSelectedValue());
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "Не удалось сохранить файл");
+        }
+    }
+
+    private void loadAll() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(frame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().toString();
+            depoCollection.loadAllData(filename);
+            reloadLevels();
+            frame.repaint();
+        } else {
+            JOptionPane.showMessageDialog(frame, "Не удалось загрузить файл");
+        }
+    }
+
+    private void loadChosenDepo() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(frame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().toString();
+            depoCollection.loadChosenDepoData(filename);
+            reloadLevels();
+            frame.repaint();
+        } else {
+            JOptionPane.showMessageDialog(frame, "Не удалось загрузить файл");
         }
     }
 

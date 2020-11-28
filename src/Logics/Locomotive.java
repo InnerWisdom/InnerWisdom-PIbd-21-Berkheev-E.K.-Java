@@ -9,13 +9,28 @@ public class Locomotive extends Vehicle {
     protected int locomotiveWidth = 200;
     protected int locomotiveHeight = 100;
 
-    public Locomotive(int maxSpeed, float weight, Color mainColor) {
+
+    protected final String separator = ";";
+
+    protected final String separatorForColor = "-";
+
+    public Locomotive(int maxSpeed, int weight, Color mainColor) {
         this.maxSpeed = maxSpeed;
         this.weight = weight;
         this.mainColor = mainColor;
     }
 
-    protected Locomotive(int maxSpeed, float weight, Color mainColor, int locomotiveWidth, int locomotiveHeight) {
+    public Locomotive(String info) {
+        String[] infoStrs = info.split(separator);
+        if (infoStrs.length == 3) {
+            maxSpeed = Integer.parseInt(infoStrs[0]);
+            weight = Integer.parseInt(infoStrs[1]);
+            String[] colorStrs = infoStrs[2].split(separatorForColor);
+            mainColor = new Color(Integer.parseInt(colorStrs[0]), Integer.parseInt(colorStrs[1]), Integer.parseInt(colorStrs[2]));
+        }
+    }
+
+    protected Locomotive(int maxSpeed, int weight, Color mainColor, int locomotiveWidth, int locomotiveHeight) {
         this.maxSpeed = maxSpeed;
         this.weight = weight;
         this.mainColor = mainColor;
@@ -72,4 +87,10 @@ public class Locomotive extends Vehicle {
         g.fillOval(posX - 3, posY + 38, 135, 10);
 
     }
+
+    @Override
+    public String toString() {
+        return maxSpeed + separator + weight + separator + mainColor.getRed() + separatorForColor + mainColor.getGreen() + separatorForColor + mainColor.getBlue();
+    }
+
 }
