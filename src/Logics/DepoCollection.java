@@ -54,7 +54,9 @@ public class DepoCollection {
         FileWriter fileWriter = new FileWriter(filename);
         fileWriter.write("DepoCollection\n");
         for (String level : depoStages.keySet()) {
-
+            if(!depoStages.containsKey(level)){
+                return false;
+            }
             fileWriter.write("Depo" + separator + level + "\n");
             ITransport locomotive = null;
             for (int i = 0; (locomotive = depoStages.get(level).get(i)) != null; i++) {
@@ -75,6 +77,9 @@ public class DepoCollection {
 
     public boolean saveChosenDepoData(String filename, String name) throws IOException {
 
+        if(!depoStages.containsKey(name)){
+            return false;
+        }
         FileWriter fileWriter = new FileWriter(filename);
         fileWriter.write("DepoCollection\n");
         Depo<Locomotive, IAdditions> depo = depoStages.get(name);
@@ -82,10 +87,10 @@ public class DepoCollection {
         ITransport locomotive = null;
 
         for (int i = 0; (locomotive = depo.get(i)) != null; i++) {
-            if (locomotive.getClass().toString().equals("class Locomotive")) {
+            if (locomotive.getClass().toString().equals("class Logics.Locomotive")) {
                 fileWriter.write("Locomotive" + separator);
             }
-            if (locomotive.getClass().toString().equals("class ElLocomotive")) {
+            if (locomotive.getClass().toString().equals("class Logics.ElLocomotive")) {
                 fileWriter.write("ElLocomotive" + separator);
             }
             fileWriter.write(locomotive.toString() + "\n");
@@ -114,8 +119,7 @@ public class DepoCollection {
                 if (line.contains("Depo")) {
                     key = line.split(separator)[1];
                     if (depoStages.containsKey(key)) {
-                        depoStages.remove(key);
-                        depoStages.put(key, new Depo<>(frameWidth, frameHeight));
+                        depoStages.get(key).deleteLocomotives();
                     } else {
                         depoStages.put(key, new Depo<>(frameWidth, frameHeight));
                     }
@@ -167,7 +171,7 @@ public class DepoCollection {
             while (line != null) {
                 if (line.contains("Depo")) {
                     key = line.split(separator)[1];
-                    depoStages.put(key, new Depo<>(frameWidth, frameHeight));
+                    depoStages.put(key, new Depo<Locomotive, IAdditions>(frameWidth, frameHeight));
                     if (scanner.hasNextLine()) {
                         line = scanner.nextLine();
                     } else {
