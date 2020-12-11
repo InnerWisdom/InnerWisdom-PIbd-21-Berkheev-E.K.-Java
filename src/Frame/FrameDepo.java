@@ -51,20 +51,20 @@ public class FrameDepo {
         JMenu saveDepo = new JMenu("Save");
         depoMenu.add(saveDepo);
 
-        JMenu loadLocomotive = new JMenu("Load");
-        depoMenu.add(loadLocomotive);
+        JMenu loadDepo = new JMenu("Load");
+        depoMenu.add(loadDepo);
 
         JMenuItem saveAllDepos = new JMenuItem("Save all");
         saveDepo.add(saveAllDepos);
 
         JMenuItem loadAllDepos = new JMenuItem("Load all");
-        loadLocomotive.add(loadAllDepos);
+        loadDepo.add(loadAllDepos);
 
         JMenuItem saveChosenDepo = new JMenuItem("Save one depo");
         saveDepo.add(saveChosenDepo);
 
         JMenuItem loadChosenDepo = new JMenuItem("Load one depo");
-        loadLocomotive.add(loadChosenDepo);
+        loadDepo.add(loadChosenDepo);
 
         depoCollection = new DepoCollection(900, 800);
 
