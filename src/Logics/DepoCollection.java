@@ -87,10 +87,10 @@ public class DepoCollection {
         ITransport locomotive = null;
 
         for (int i = 0; (locomotive = depo.get(i)) != null; i++) {
-            if (locomotive.getClass().toString().equals("class Locomotive")) {
+            if (locomotive.getClass().toString().equals("class Logics.Locomotive")) {
                 fileWriter.write("Locomotive" + separator);
             }
-            if (locomotive.getClass().toString().equals("class ElLocomotive")) {
+            if (locomotive.getClass().toString().equals("class Logics.ElLocomotive")) {
                 fileWriter.write("ElLocomotive" + separator);
             }
             fileWriter.write(locomotive.toString() + "\n");
