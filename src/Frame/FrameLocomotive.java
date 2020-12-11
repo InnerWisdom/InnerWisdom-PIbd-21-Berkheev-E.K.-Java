@@ -20,7 +20,7 @@ public class FrameLocomotive {
         frame.repaint();
     }
     public FrameLocomotive() {
-        frame = new JFrame("Электровоз");
+        frame = new JFrame("ElLocomotive");
         frame.setSize(900, 500);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -30,8 +30,8 @@ public class FrameLocomotive {
         Icon up = new ImageIcon("Rec\\Up.png");
         Icon down = new ImageIcon("Rec\\Down.png");
 
-        JButton btnCreateLocomotive = new JButton("Создать Локомотив");
-        JButton btnCreateElLocomotive = new JButton("Создать Электровоз");
+        JButton btnCreateLocomotive = new JButton("Create Locomotive");
+        JButton btnCreateElLocomotive = new JButton("Create ElLocomotive");
         JButton btnUp = new JButton(up);
         btnUp.setName("up");
         JButton btnDown = new JButton(down);
@@ -62,12 +62,12 @@ public class FrameLocomotive {
         btnLeft.addActionListener(e -> setDirection(btnLeft));
         btnRight.addActionListener(e -> setDirection(btnRight));
 
-        listOfAdditions = new JComboBox<>(new String[]{"Ромб", "Квадрат", "Овал"});
+        listOfAdditions = new JComboBox<>(new String[]{"Rhombus", "Square", "Oval"});
         frame.getContentPane().add(listOfAdditions);
         listOfAdditions.setBounds(10, 45, 180, 30);
         listOfAdditions.addActionListener(e -> changeCounts());
 
-        listOfCount = new JComboBox<>(new String[]{"1 рог-ромб", "2 рога-ромб", "3 рога-ромб"});
+        listOfCount = new JComboBox<>(new String[]{"1 horn-rhombus", "2 horn-rhombus", "3 horn-rhombus"});
         frame.getContentPane().add(listOfCount);
         listOfCount.setBounds(200, 45, 180, 30);
 
@@ -114,19 +114,19 @@ public class FrameLocomotive {
         listOfCount.removeAllItems();
         switch (listOfAdditions.getSelectedIndex()) {
             case 0:
-                listOfCount.addItem("1 рог-ромб");
-                listOfCount.addItem("2 рога-ромба");
-                listOfCount.addItem("3 рога-ромба");
+                listOfCount.addItem("1 horn-rhombus");
+                listOfCount.addItem("2 horns-rhombus");
+                listOfCount.addItem("3 horns-rhombus");
                 break;
             case 1:
-                listOfCount.addItem("1 рог-квадрат");
-                listOfCount.addItem("2 рога-квадрата");
-                listOfCount.addItem("3 рога-квадрата");
+                listOfCount.addItem("1 horn-square");
+                listOfCount.addItem("2 horns-square");
+                listOfCount.addItem("3 horns-square");
                 break;
             case 2:
-                listOfCount.addItem("1 рог-овал");
-                listOfCount.addItem("2 рога-овала");
-                listOfCount.addItem("3 рога-овала");
+                listOfCount.addItem("1 horn-oval");
+                listOfCount.addItem("2 horns-oval");
+                listOfCount.addItem("3 horns-oval");
                 break;
         }
     }

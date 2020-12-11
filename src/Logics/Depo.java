@@ -3,6 +3,8 @@ package Logics;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import Frame.LocomotiveNotFoundException;
+import Frame.DepoOverflowException;
 
 public class Depo<T extends Locomotive, I extends IAdditions> {
     private final List<T> places;
@@ -21,22 +23,21 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
         places = new ArrayList<>();
     }
 
-    public boolean add(T locomotive) {
+    public boolean add(T locomotive) throws DepoOverflowException {
         if (places.size() < maxCount) {
             places.add(locomotive);
             return true;
         }
-        return false;
+        throw new DepoOverflowException();
     }
 
-    public T remove(int index) {
+    public T remove(int index) throws LocomotiveNotFoundException {
         if (index >= 0 && index < maxCount && places.get(index) != null) {
             T locomotive = places.get(index);
             places.remove(index);
             return locomotive;
-        } else {
-            return null;
         }
+        throw new LocomotiveNotFoundException(index);
     }
 
     public void draw(Graphics2D g) {
@@ -49,10 +50,6 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
                     margin + placeHeight * (i % rowsCount), frameWidth, frameHeight);
             places.get(i).draw(g);
         }
-    }
-
-    public void deleteLocomotives() {
-        places.clear();
     }
 
     public void drawMarking(Graphics2D g) {
