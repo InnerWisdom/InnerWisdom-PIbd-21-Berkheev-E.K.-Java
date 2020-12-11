@@ -1,5 +1,6 @@
 package Logics;
 
+import Frame.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,9 @@ import Frame.LocomotiveNotFoundException;
 import Frame.DepoOverflowException;
 
 public class Depo<T extends Locomotive, I extends IAdditions> {
+
+    public LocomotiveComparer locomotiveComparator = new LocomotiveComparer();
+
     private final List<T> places;
     private final int maxCount;
     private final int placeWidth = 250;
@@ -23,12 +27,15 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
         places = new ArrayList<>();
     }
 
-    public boolean add(T locomotive) throws DepoOverflowException {
-        if (places.size() < maxCount) {
-            places.add(locomotive);
-            return true;
+    public boolean add(T locomotive) throws DepoOverflowException, DepoAlreadyHaveThisLocomotiveException {
+        if (places.size() >= maxCount) {
+            throw new DepoOverflowException();
         }
-        throw new DepoOverflowException();
+        if (places.contains(locomotive)) {
+            throw new DepoAlreadyHaveThisLocomotiveException();
+        }
+        places.add(locomotive);
+        return true;
     }
 
     public T remove(int index) throws LocomotiveNotFoundException {
@@ -75,5 +82,9 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
             return places.get(index);
         }
         return null;
+    }
+
+    public void sortDepo(){
+        places.sort(locomotiveComparator);
     }
 }
