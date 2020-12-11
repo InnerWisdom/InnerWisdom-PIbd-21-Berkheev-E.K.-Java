@@ -2,6 +2,6 @@ package Frame;
 
 public class DepoAlreadyHaveThisLocomotiveException extends Exception {
     public DepoAlreadyHaveThisLocomotiveException() {
-        super("? ???? ??? ???? ????? ?????????");
+        super("Depo already have such locomotive");
     }
 }
