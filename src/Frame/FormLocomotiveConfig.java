@@ -149,7 +149,7 @@ public class FormLocomotiveConfig {
 
         //core type
         JPanel coreTypeGroupBox = new JPanel();
-        Border coreBorder = BorderFactory.createTitledBorder("");
+        Border coreBorder = BorderFactory.createTitledBorder("Core type");
         coreTypeGroupBox.setBorder(coreBorder);
 
         coreTypeGroupBox.add(lblLocomotive);
@@ -159,7 +159,7 @@ public class FormLocomotiveConfig {
         coreTypeGroupBox.setLayout(null);
         //param type
         JPanel paramGroupBox = new JPanel();
-        Border paramBorder = BorderFactory.createTitledBorder("");
+        Border paramBorder = BorderFactory.createTitledBorder("Parametres");
         paramGroupBox.setBorder(paramBorder);
 
         paramGroupBox.add(spinWeight);
@@ -173,7 +173,7 @@ public class FormLocomotiveConfig {
 
         //color type
         JPanel colorGroupBox = new JPanel();
-        Border colorBorder = BorderFactory.createTitledBorder("");
+        Border colorBorder = BorderFactory.createTitledBorder("Colors");
         colorGroupBox.setBorder(colorBorder);
 
         colorGroupBox.add(MainColor);
@@ -189,9 +189,10 @@ public class FormLocomotiveConfig {
 
         colorGroupBox.setBounds(600, 30, 300, 230);
         colorGroupBox.setLayout(null);
+
         //horn type
         JPanel hornsGroupBox = new JPanel();
-        Border hornsBorder = BorderFactory.createTitledBorder("");
+        Border hornsBorder = BorderFactory.createTitledBorder("Horns");
         hornsGroupBox.setBorder(hornsBorder);
 
         hornsGroupBox.add(lblAdditions);
