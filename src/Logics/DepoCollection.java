@@ -119,8 +119,7 @@ public class DepoCollection {
                 if (line.contains("Depo")) {
                     key = line.split(separator)[1];
                     if (depoStages.containsKey(key)) {
-                        depoStages.remove(key);
-                        depoStages.put(key, new Depo<>(frameWidth, frameHeight));
+                        depoStages.get(key).deleteLocomotives();
                     } else {
                         depoStages.put(key, new Depo<>(frameWidth, frameHeight));
                     }

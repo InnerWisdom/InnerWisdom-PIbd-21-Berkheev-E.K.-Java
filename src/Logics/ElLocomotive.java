@@ -55,6 +55,7 @@ public class ElLocomotive extends Locomotive implements Iterable<Object>,Iterato
         objectProperties.add(frontBumper);
         objectProperties.add(upperPipe);
         objectProperties.add(digit);
+        objectProperties.add(addition);
         switch (addition) {
             case "Rhombus":
                 this.additions = new Horns(digit);
@@ -95,6 +96,7 @@ public class ElLocomotive extends Locomotive implements Iterable<Object>,Iterato
             objectProperties.add(frontBumper);
             objectProperties.add(upperPipe);
             objectProperties.add(digit);
+            objectProperties.add(addition);
             switch (infoStrs[8]) {
                 case "Rhombus":
                     this.additions = new Horns(Integer.parseInt(infoStrs[7]));

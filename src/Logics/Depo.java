@@ -59,6 +59,10 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
         }
     }
 
+    public void deleteLocomotives() {
+        places.clear();
+    }
+
     public void drawMarking(Graphics2D g) {
         int margin = 15;
         int rowsCount = frameHeight / placeHeight;
