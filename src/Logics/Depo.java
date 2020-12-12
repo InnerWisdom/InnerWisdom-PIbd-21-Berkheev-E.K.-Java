@@ -79,6 +79,7 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
             return places.get(index);
         }
         return null;
+
     }
 
 }
