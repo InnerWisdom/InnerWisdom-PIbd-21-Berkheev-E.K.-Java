@@ -91,4 +91,5 @@ public class Depo<T extends Locomotive, I extends IAdditions> {
     public void sortDepo(){
         places.sort(locomotiveComparator);
     }
+
 }

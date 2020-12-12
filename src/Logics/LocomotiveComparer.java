@@ -91,5 +91,5 @@ public class LocomotiveComparer implements Comparator<ITransport> {
         }
         return 0;
     }
-}
 
+}
