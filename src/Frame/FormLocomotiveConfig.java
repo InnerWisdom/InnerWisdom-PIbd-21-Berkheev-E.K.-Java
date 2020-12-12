@@ -26,7 +26,7 @@ public class FormLocomotiveConfig {
 
         this.frameDepo=frameDepo;
 
-        frame = new JFrame("Конфигурация");
+        frame = new JFrame("Config");
         frame.setSize(1000, 600);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -37,28 +37,28 @@ public class FormLocomotiveConfig {
         checkBoxFBumper = new JCheckBox("Front Bumper");
         checkBoxUPipe = new JCheckBox("Upper Pipe");
 
-        JButton createLocomotive = new JButton("Создать");
-        JButton cancelLocomotive = new JButton("Отмена");
-        JLabel lblWeight = new JLabel("Вес");
+        JButton createLocomotive = new JButton("Create");
+        JButton cancelLocomotive = new JButton("Cancel");
+        JLabel lblWeight = new JLabel("Weight");
         SpinnerModel spinnerWeight = new SpinnerNumberModel(1, 1, 600, 1);
         JSpinner spinWeight = new JSpinner(spinnerWeight);
-        JLabel lblSpeed = new JLabel("Скорость");
+        JLabel lblSpeed = new JLabel("Speed");
         SpinnerModel spinnerSpeed = new SpinnerNumberModel(1, 1, 600, 1);
         JSpinner spinSpeed = new JSpinner(spinnerSpeed);
         JLabel lblPicture = new JLabel("");
         JLabel MainColor = new JLabel("Main color");
         JLabel DopColor = new JLabel("Dop color");
-        JLabel lblLocomotive = new JLabel("Локомотив");
-        JLabel lblElLocomotive = new JLabel("Электровоз");
-        JLabel lblAdditions= new JLabel("Количество рогов");
+        JLabel lblLocomotive = new JLabel("Locomotive");
+        JLabel lblElLocomotive = new JLabel("ElLocomotive");
+        JLabel lblAdditions= new JLabel("CountHorns");
 
-        JLabel lblShapeAdditions= new JLabel("Форма рогов");
+        JLabel lblShapeAdditions= new JLabel("ShapeHorns");
         Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
         lblShapeAdditions.setBorder(border);
         lblAdditions.setBorder(border);
-        JLabel lblFirstAddition=new JLabel("Ромб");
-        JLabel lblSecondAddition=new JLabel("Квадрат");
-        JLabel lblThirdAddition=new JLabel("Овал");
+        JLabel lblFirstAddition=new JLabel("Rhombus");
+        JLabel lblSecondAddition=new JLabel("Square");
+        JLabel lblThirdAddition=new JLabel("Oval");
         lblFirstAddition.setBorder(border);
         lblSecondAddition.setBorder(border);
         lblThirdAddition.setBorder(border);
@@ -93,9 +93,9 @@ public class FormLocomotiveConfig {
         panelGray.setBackground(Color.GRAY);
         panelGray.setBorder(border);
         //horns
-        JLabel lblHrnOne=new JLabel("один");
-        JLabel lblHrnTwo=new JLabel("два");
-        JLabel lblHrnThree=new JLabel("три");
+        JLabel lblHrnOne=new JLabel("one");
+        JLabel lblHrnTwo=new JLabel("two");
+        JLabel lblHrnThree=new JLabel("three");
         lblHrnOne.setBorder(border);
         lblHrnTwo.setBorder(border);
         lblHrnThree.setBorder(border);
@@ -149,7 +149,7 @@ public class FormLocomotiveConfig {
 
         //core type
         JPanel coreTypeGroupBox = new JPanel();
-        Border coreBorder = BorderFactory.createTitledBorder("Тип кузова");
+        Border coreBorder = BorderFactory.createTitledBorder("Core type");
         coreTypeGroupBox.setBorder(coreBorder);
 
         coreTypeGroupBox.add(lblLocomotive);
@@ -159,7 +159,7 @@ public class FormLocomotiveConfig {
         coreTypeGroupBox.setLayout(null);
         //param type
         JPanel paramGroupBox = new JPanel();
-        Border paramBorder = BorderFactory.createTitledBorder("Параметры");
+        Border paramBorder = BorderFactory.createTitledBorder("Parametres");
         paramGroupBox.setBorder(paramBorder);
 
         paramGroupBox.add(spinWeight);
@@ -173,7 +173,7 @@ public class FormLocomotiveConfig {
 
         //color type
         JPanel colorGroupBox = new JPanel();
-        Border colorBorder = BorderFactory.createTitledBorder("Цвета");
+        Border colorBorder = BorderFactory.createTitledBorder("Colors");
         colorGroupBox.setBorder(colorBorder);
 
         colorGroupBox.add(MainColor);
@@ -189,9 +189,10 @@ public class FormLocomotiveConfig {
 
         colorGroupBox.setBounds(600, 30, 300, 230);
         colorGroupBox.setLayout(null);
+
         //horn type
         JPanel hornsGroupBox = new JPanel();
-        Border hornsBorder = BorderFactory.createTitledBorder("Рога");
+        Border hornsBorder = BorderFactory.createTitledBorder("Horns");
         hornsGroupBox.setBorder(hornsBorder);
 
         hornsGroupBox.add(lblAdditions);
@@ -285,9 +286,9 @@ public class FormLocomotiveConfig {
         lblPicture.setTransferHandler(new TransferHandler("text"));
 
         PropertyChangeListener nameListener = propertyChangeEvent -> {
-            if (lblPicture.getText() == "Локомотив") {
+            if (lblPicture.getText() == "Locomotive") {
                 setLocomotive(MainColor.getBackground());
-            } else if (lblPicture.getText() == "Электровоз") {
+            } else if (lblPicture.getText() == "ElLocomotive") {
                 setElLocomotive(MainColor.getBackground(), DopColor.getBackground(), checkBoxBackLine.isSelected(),
                         checkBoxFBumper.isSelected(), checkBoxUPipe.isSelected(),additionShape(lblShapeAdditions.getText()),
                         additionCount(lblAdditions.getText()));
@@ -348,11 +349,11 @@ public class FormLocomotiveConfig {
 
     private int additionCount(String str1){
         switch(str1) {
-            case "один":
+            case "one":
                 return 0;
-            case "два":
+            case "two":
                 return 1;
-            case "три":
+            case "three":
                 return 2;
         }
         return 4;
@@ -360,11 +361,11 @@ public class FormLocomotiveConfig {
 
     private int additionShape(String str1){
         switch(str1) {
-            case "Ромб":
+            case "Rhombus":
                 return 0;
-            case "Квадрат":
+            case "Square":
                 return 1;
-            case "Овал":
+            case "Oval":
                 return 2;
         }
         return 0;

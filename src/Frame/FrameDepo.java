@@ -2,15 +2,22 @@ package Frame;
 
 import Logics.*;
 
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.IOException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Scanner;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 public class FrameDepo {
 
+    private static Logger logger;
     private final LinkedList<Locomotive> locomotiveQueue;
     private final DepoCollection depoCollection;
     private final DefaultListModel<String> deposList;
@@ -22,9 +29,12 @@ public class FrameDepo {
 
     public FrameDepo() {
 
+        BasicConfigurator.configure();
+        logger = Logger.getLogger("Default");
+
         locomotiveQueue = new LinkedList<>();
 
-        frame = new JFrame("Депо");
+        frame = new JFrame("Depo");
         frame.setSize(1100, 850);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -32,58 +42,56 @@ public class FrameDepo {
         frame.setLayout(null);
 
 
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
+        JMenuBar depoBar = new JMenuBar();
+        frame.setJMenuBar(depoBar);
 
-        JMenu fileMenu = new JMenu("Файл");
-        menuBar.add(fileMenu);
+        JMenu depoMenu = new JMenu("File");
+        depoBar.add(depoMenu);
 
-        JMenu saveMenu = new JMenu("Сохранить");
-        fileMenu.add(saveMenu);
+        JMenu saveDepo = new JMenu("Save");
+        depoMenu.add(saveDepo);
 
-        JMenu loadMenu = new JMenu("Загрузить");
-        fileMenu.add(loadMenu);
+        JMenu loadDepo = new JMenu("Load");
+        depoMenu.add(loadDepo);
 
-        JMenuItem saveAllDataItem = new JMenuItem("Сохранить целиком");
-        saveMenu.add(saveAllDataItem);
+        JMenuItem saveAllDepos = new JMenuItem("Save all");
+        saveDepo.add(saveAllDepos);
 
-        JMenuItem loadAllDataItem = new JMenuItem("Загрузить целиком");
-        loadMenu.add(loadAllDataItem);
+        JMenuItem loadAllDepos = new JMenuItem("Load all");
+        loadDepo.add(loadAllDepos);
 
-        JMenuItem saveChosenAirfieldItem = new JMenuItem("Сохранить одно депо");
-        saveMenu.add(saveChosenAirfieldItem);
+        JMenuItem saveChosenDepo = new JMenuItem("Save one depo");
+        saveDepo.add(saveChosenDepo);
 
-        JMenuItem loadChosenAirfieldItem = new JMenuItem("Загрузить одно депо");
-        loadMenu.add(loadChosenAirfieldItem);
+        JMenuItem loadChosenDepo = new JMenuItem("Load one depo");
+        loadDepo.add(loadChosenDepo);
 
         depoCollection = new DepoCollection(900, 800);
 
         drawPanelDepo = new DrawPanelDepo(depoCollection);
-        JButton buttonCreateLocomotive = new JButton("Создать локомотив");
-        JButton buttonAppendLocomotive = new JButton("Вставить");
+        JButton buttonCreateLocomotive = new JButton("CreateLocomotive");
 
         JPanel takeGroupBox = new JPanel();
-        Border centerBorder = BorderFactory.createTitledBorder("Забрать локомотив");
+        Border centerBorder = BorderFactory.createTitledBorder("");
         takeGroupBox.setBorder(centerBorder);
-        JLabel labelNumber = new JLabel("Место");
+        JLabel labelNumber = new JLabel("Location");
         fieldTakeIndex = new JFormattedTextField();
-        JButton buttonMoveToLinkedList = new JButton("Поместить в очередь");
-        JButton buttonGetFromLinkedList = new JButton("Получить из очереди");
+        JButton buttonMoveToLinkedList = new JButton("Move into List");
+        JButton buttonGetFromLinkedList = new JButton("Get from List");
 
         JPanel depoGroupBox = new JPanel();
-        centerBorder = BorderFactory.createTitledBorder("Депо");
+        centerBorder = BorderFactory.createTitledBorder("Depo");
         depoGroupBox.setBorder(centerBorder);
-        JLabel labelDepoName = new JLabel("Название депо");
+        JLabel labelDepoName = new JLabel("Depo name");
         deposList = new DefaultListModel<>();
         listBoxDepos = new JList<>(deposList);
         fieldDepoName = new JTextField();
-        JButton buttonAddDepo = new JButton("Добавить депо");
-        JButton buttonRemoveDepo = new JButton("Удалить депо");
+        JButton buttonAddDepo = new JButton("Add depo");
+        JButton buttonRemoveDepo = new JButton("Delete depo");
 
         frame.getContentPane().add(buttonCreateLocomotive);
         frame.getContentPane().add(buttonMoveToLinkedList);
         frame.getContentPane().add(drawPanelDepo);
-        frame.getContentPane().add(buttonAppendLocomotive);
         takeGroupBox.add(fieldTakeIndex);
         takeGroupBox.add(buttonMoveToLinkedList);
         takeGroupBox.add(buttonGetFromLinkedList);
@@ -96,9 +104,31 @@ public class FrameDepo {
         depoGroupBox.add(buttonRemoveDepo);
         frame.getContentPane().add(depoGroupBox);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    FileReader fileReader = new FileReader("C:\\alteralt7\\log.log");
+                    Scanner scanner = new Scanner(fileReader);
+                    StringBuilder mailText = new StringBuilder();
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        if (line.contains("ERROR")) {
+                            mailText.append(line + "\n");
+                        }
+                    }
+                    if (!mailText.toString().isEmpty()) {
+                        logger.error(mailText.toString());
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                }
+            }
+        });
+
         drawPanelDepo.setBounds(0, 0, 1100, 850);
         buttonCreateLocomotive.setBounds(770, 20, 200, 30);
-        buttonAppendLocomotive.setBounds(770, 60, 200, 30);
 
         takeGroupBox.setBounds(770, 100, 200, 140);
         takeGroupBox.setLayout(null);
@@ -115,34 +145,10 @@ public class FrameDepo {
         buttonRemoveDepo.setBounds(20, 100, 160, 30);
         listBoxDepos.setBounds(20, 140, 160, 140);
 
-        saveChosenAirfieldItem.addActionListener(e -> {
-            try {
-                saveChosenDepo();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        loadChosenAirfieldItem.addActionListener(e -> {
-            try {
-                loadChosenDepo();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        saveAllDataItem.addActionListener(e -> {
-            try {
-                saveAll();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        loadAllDataItem.addActionListener(e -> {
-            try {
-                loadAll();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
+        saveChosenDepo.addActionListener(e -> saveChosenDepo());
+        loadChosenDepo.addActionListener(e -> loadChosenDepo());
+        saveAllDepos.addActionListener(e -> saveAll());
+        loadAllDepos.addActionListener(e ->loadAll());
 
         buttonCreateLocomotive.addActionListener(e -> createLocomotive());
         buttonMoveToLinkedList.addActionListener(e -> takeLocomotive());
@@ -159,11 +165,24 @@ public class FrameDepo {
     }
 
     public void addLocomotive(Locomotive locomotive) {
-        if (locomotive != null && listBoxDepos.getSelectedIndex() >= 0) {
-            if (((depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)))) {
-                frame.repaint();
-            } else {
-                JOptionPane.showMessageDialog(frame, "Локомотив не удалось поставить");
+        if (locomotive == null || listBoxDepos.getSelectedIndex() < 0) {
+            logger.warn("No space for locomotive");
+            JOptionPane.showMessageDialog(frame, "There is no locomotive or it cannot be added");
+        } else {
+            try {
+                if (depoCollection.get(listBoxDepos.getSelectedValue()).add(locomotive)) {
+                    logger.info("Added locomotive " + locomotive.toString());
+                    frame.repaint();
+                } else {
+                    logger.info("Can't place locomotive");
+                    JOptionPane.showMessageDialog(frame, "Can't place locomotive");
+                }
+            } catch (DepoOverflowException ex) {
+                logger.error("Overflow");
+                JOptionPane.showMessageDialog(frame, "Overflow");
+            } catch (Exception ex) {
+                logger.fatal("Unknown error");
+                JOptionPane.showMessageDialog(frame, "Unknown error");
             }
         }
     }
@@ -173,92 +192,130 @@ public class FrameDepo {
             if (!fieldTakeIndex.getText().equals("")) {
                 try {
                     Locomotive locomotive = depoCollection.get(listBoxDepos.getSelectedValue()).remove(Integer.parseInt(fieldTakeIndex.getText()));
-                    if (locomotive != null) {
-                        locomotiveQueue.add(locomotive);
-                        frame.repaint();
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Локомотива с таким индексом нет!", "Ошибка", JOptionPane.ERROR_MESSAGE);
-                    }
+                    logger.info("Added locomotive " + locomotive.toString());
+                    locomotiveQueue.add(locomotive);
+                    frame.repaint();
+                }catch (LocomotiveNotFoundException ex) {
+                    logger.error("Locomotive not found");
+                    JOptionPane.showMessageDialog(frame, "Locomotive not found");
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(frame, "Локомотива с таким индексом нет!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    logger.fatal("Unknown error");
+                    JOptionPane.showMessageDialog(frame, "No such locomotive!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                logger.warn("Index not inserted");
+                JOptionPane.showMessageDialog(frame, "No such locomotive!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(frame, "Депо не выбрано", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.warn("Depo not chosen");
+            JOptionPane.showMessageDialog(frame, "Depo is not specified", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void moveToFrame() {
         if (!locomotiveQueue.isEmpty()) {
+            logger.info("Locomotive taken from List " + locomotiveQueue.peek().toString());
             FrameLocomotive frameLocomotive = new FrameLocomotive();
             frameLocomotive.setLocomotive(Objects.requireNonNull(locomotiveQueue.poll()));
             frame.repaint();
+        } else {
+            logger.warn("List is empty");
+            JOptionPane.showMessageDialog(frame, "List empty");
         }
     }
 
-    private void saveAll() throws IOException {
+    private void saveAll(){
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
         fileChooser.setFileFilter(filter);
 
         int result = fileChooser.showDialog(frame, "Save Depo");
         if (result == JFileChooser.APPROVE_OPTION) {
-            String filename = fileChooser.getSelectedFile().toString();
-            if (filename.contains(".txt")) {
-                depoCollection.saveAllData(filename);
-            } else {
-                depoCollection.saveAllData(filename + ".txt");
+            try {
+                String filename = fileChooser.getSelectedFile().toString();
+                logger.info("Сохранено в файл " + filename);
+                if (filename.contains(".txt")) {
+                    depoCollection.saveAllData(filename);
+                } else {
+                    depoCollection.saveAllData(filename + ".txt");
+                }
+            } catch (Exception e) {
+                logger.fatal("Unknown error");
+                JOptionPane.showMessageDialog(frame, "Unknown error");
             }
         } else {
-            JOptionPane.showMessageDialog(frame, "Не удалось сохранить файл");
+            logger.warn("Can't save file");
+            JOptionPane.showMessageDialog(frame, "Can't save file");
         }
     }
 
-    private void saveChosenDepo() throws IOException {
+    private void saveChosenDepo(){
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
         fileChooser.setFileFilter(filter);
 
         int result = fileChooser.showDialog(frame, "Save Depo");
         if (result == JFileChooser.APPROVE_OPTION) {
-            String filename = fileChooser.getSelectedFile().toString();
-            if (filename.contains(".txt")) {
-                depoCollection.saveChosenDepoData(filename, listBoxDepos.getSelectedValue());
-            } else {
-                depoCollection.saveChosenDepoData(filename + ".txt", listBoxDepos.getSelectedValue());
+            try {
+                String filename = fileChooser.getSelectedFile().toString();
+                logger.info("Сохранено в файл " + filename);
+                if (filename.contains(".txt")) {
+                    depoCollection.saveChosenDepoData(filename, listBoxDepos.getSelectedValue());
+                } else {
+                    depoCollection.saveChosenDepoData(filename + ".txt", listBoxDepos.getSelectedValue());
+                }
+            } catch (Exception e) {
+                logger.fatal("Unknown error");
+                JOptionPane.showMessageDialog(frame, "Unknown error");
             }
-        } else {
-            JOptionPane.showMessageDialog(frame, "Не удалось сохранить файл");
-        }
+        }else {
+                logger.warn("Can't save file");
+                JOptionPane.showMessageDialog(frame, "Can't save file");
+            }
     }
 
-    private void loadAll() throws IOException {
+    private void loadAll() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
         fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
+            try {
             String filename = fileChooser.getSelectedFile().toString();
+            logger.info("Loaded from file " + filename);
             depoCollection.loadAllData(filename);
             reloadLevels();
             frame.repaint();
+            } catch (Exception e) {
+                logger.fatal("Unknown error");
+                JOptionPane.showMessageDialog(frame, "Unknown error");
+            }
         } else {
-            JOptionPane.showMessageDialog(frame, "Не удалось загрузить файл");
+
+            logger.warn("Can't load file");
+            JOptionPane.showMessageDialog(frame, "Can't load file");
         }
     }
 
-    private void loadChosenDepo() throws IOException {
+    private void loadChosenDepo() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
         fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
+            try {
             String filename = fileChooser.getSelectedFile().toString();
+            logger.info("Loaded from file " + filename);
             depoCollection.loadChosenDepoData(filename);
             reloadLevels();
             frame.repaint();
+        } catch (Exception e) {
+            logger.fatal("Unknown error");
+            JOptionPane.showMessageDialog(frame, "Unknown error");
+        }
         } else {
-            JOptionPane.showMessageDialog(frame, "Не удалось загрузить файл");
+            logger.warn("Can't load file");
+            JOptionPane.showMessageDialog(frame, "Can't load file");
         }
     }
 
@@ -282,25 +339,29 @@ public class FrameDepo {
 
     private void addDepo() {
         if (!fieldDepoName.getText().equals("")) {
+            logger.info("Added depo " + fieldDepoName.getText());
             depoCollection.addDepo(fieldDepoName.getText());
             reloadLevels();
             frame.repaint();
         } else {
-            JOptionPane.showMessageDialog(frame, "Введите название депо", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.info("Specify depo name");
+            JOptionPane.showMessageDialog(frame, "Specify Depo name", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void removeDepo() {
         if (listBoxDepos.getSelectedIndex() >= 0) {
-            int result = JOptionPane.showConfirmDialog(frame, "Удалить депо " + listBoxDepos.getSelectedValue() + "?", "Удаление",
+            int result = JOptionPane.showConfirmDialog(frame, "Delete Depo " + listBoxDepos.getSelectedValue() + "?", "Deletation",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
+                logger.info("Depo deleted");
                 depoCollection.removeDepo(listBoxDepos.getSelectedValue());
                 reloadLevels();
                 frame.repaint();
             }
         } else {
-            JOptionPane.showMessageDialog(frame, "Депо не выбрано", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.info("Depo not chosen");
+            JOptionPane.showMessageDialog(frame, "Depo is not specified", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

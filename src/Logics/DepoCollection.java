@@ -1,5 +1,6 @@
 package Logics;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import Frame.LocomotiveNotFoundException;
+import Frame.DepoOverflowException;
 
 public class DepoCollection {
 
@@ -54,9 +57,7 @@ public class DepoCollection {
         FileWriter fileWriter = new FileWriter(filename);
         fileWriter.write("DepoCollection\n");
         for (String level : depoStages.keySet()) {
-            if(!depoStages.containsKey(level)){
-                return false;
-            }
+
             fileWriter.write("Depo" + separator + level + "\n");
             ITransport locomotive = null;
             for (int i = 0; (locomotive = depoStages.get(level).get(i)) != null; i++) {
@@ -77,9 +78,6 @@ public class DepoCollection {
 
     public boolean saveChosenDepoData(String filename, String name) throws IOException {
 
-        if(!depoStages.containsKey(name)){
-            return false;
-        }
         FileWriter fileWriter = new FileWriter(filename);
         fileWriter.write("DepoCollection\n");
         Depo<Locomotive, IAdditions> depo = depoStages.get(name);
@@ -99,7 +97,7 @@ public class DepoCollection {
         return true;
     }
 
-    public boolean loadChosenDepoData(String filename) throws IOException {
+    public void loadChosenDepoData(String filename) throws IOException, DepoOverflowException {
 
         FileReader fileReader = new FileReader(filename);
         Scanner scanner = new Scanner(fileReader);
@@ -137,7 +135,7 @@ public class DepoCollection {
                 }
                 var result = depoStages.get(key).add(locomotive);
                 if (!result) {
-                    return false;
+                    return;
                 }
                 if (scanner.hasNextLine()) {
                     line = scanner.nextLine();
@@ -146,13 +144,13 @@ public class DepoCollection {
                 }
             }
             fileReader.close();
-            return true;
+        } else {
+            throw new FileNotFoundException();
         }
         fileReader.close();
-        return false;
     }
 
-    public boolean loadAllData(String filename) throws IOException {
+    public void loadAllData(String filename) throws IOException, DepoOverflowException {
 
         FileReader fileReader = new FileReader(filename);
         Scanner scanner = new Scanner(fileReader);
@@ -171,7 +169,7 @@ public class DepoCollection {
             while (line != null) {
                 if (line.contains("Depo")) {
                     key = line.split(separator)[1];
-                    depoStages.put(key, new Depo<Locomotive, IAdditions>(frameWidth, frameHeight));
+                    depoStages.put(key, new Depo<>(frameWidth, frameHeight));
                     if (scanner.hasNextLine()) {
                         line = scanner.nextLine();
                     } else {
@@ -186,7 +184,7 @@ public class DepoCollection {
                 }
                 var result = depoStages.get(key).add(locomotive);
                 if (!result) {
-                    return false;
+                    return;
                 }
                 if (scanner.hasNextLine()) {
                     line = scanner.nextLine();
@@ -195,10 +193,10 @@ public class DepoCollection {
                 }
             }
             fileReader.close();
-            return true;
+        } else {
+            throw new FileNotFoundException();
         }
         fileReader.close();
-        return false;
     }
 
 }
