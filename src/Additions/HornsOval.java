@@ -10,19 +10,6 @@ public class HornsOval implements IAdditions {
 
     private CountOfHorns count;
 
-    public int getNumber(){
-        if (count == CountOfHorns.one){
-            return 0;
-        }
-        if (count == CountOfHorns.two){
-            return 1;
-        }
-        if (count == CountOfHorns.three){
-            return 2;
-        }
-        return -1;
-    }
-
     public HornsOval(int digit) {
         setDigit(digit);
     }

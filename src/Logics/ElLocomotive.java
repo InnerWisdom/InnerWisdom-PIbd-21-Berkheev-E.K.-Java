@@ -151,20 +151,6 @@ public class ElLocomotive extends Locomotive implements Iterable<Object>,Iterato
         return digit;
     }
 
-    public void setHornsForm(IAdditions additions) {
-        this.additions = additions;
-        if (additions instanceof Horns) {
-            this.addition = "Rhombus";
-        }
-        if (additions instanceof HornsOval) {
-            this.addition = "Oval";
-        }
-        if (additions instanceof HornsRect) {
-            this.addition = "Rectangle";
-        }
-        this.digit = additions.getNumber();
-    }
-
     public void draw(Graphics g) {
 
         g.setColor(Color.BLACK);
