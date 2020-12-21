@@ -1,7 +1,6 @@
 package Frame;
 
 import Logics.*;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
