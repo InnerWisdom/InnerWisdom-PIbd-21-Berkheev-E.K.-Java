@@ -105,7 +105,7 @@ public class FrameLocomotive {
     }
 
     private void setElLocomotive() {
-        drawPanel.setLocomotive(new ElLocomotive(150, 1500, Color.GREEN, Color.RED, true, true, true, listOfAdditions.getSelectedIndex(), listOfCount.getSelectedIndex()));
+        drawPanel.setLocomotive(new ElLocomotive(150, 1500, Color.GREEN, Color.RED, true, true, true, listOfAdditions.getSelectedItem().toString(), listOfCount.getSelectedIndex()));
         drawPanel.getLocomotive().setPosition((int) (Math.random() * 100 + 10), (int) (Math.random() * 100 + 100), 850, 450);
         frame.repaint();
     }

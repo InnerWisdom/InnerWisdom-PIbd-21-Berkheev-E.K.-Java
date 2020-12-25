@@ -6,7 +6,11 @@ import Additions.Horns;
 import Additions.HornsRect;
 import Additions.HornsOval;
 
-public class ElLocomotive extends Locomotive {
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class ElLocomotive extends Locomotive implements Iterable<Object>,Iterator<String>,Comparable<Locomotive> {
+    public LinkedList<Object> objectProperties = new LinkedList<Object>();
 
     private Color dopColor;
     private boolean backLine;
@@ -14,10 +18,26 @@ public class ElLocomotive extends Locomotive {
     private boolean upperPipe;
     private IAdditions additions;
     private int digit;
-    private int addition;
+    private String addition;
+    private int currentIndex=0;
 
+    public boolean hasNext(){
+        return(currentIndex++<9);
+    }
+
+    public String next(){
+        return objectProperties.get(currentIndex).toString();
+    }
+
+    public void remove(){
+        objectProperties.remove(currentIndex);
+    }
+
+    public Iterator<Object> iterator() {
+        return objectProperties.iterator();
+    }
     public ElLocomotive(int maxSpeed, int weight, Color mainColor, Color dopColor,
-                        boolean backLine, boolean frontBumper, boolean upperPipe, int addition, int digit) {
+                        boolean backLine, boolean frontBumper, boolean upperPipe, String addition, int digit) {
         super(maxSpeed, weight, mainColor, 200, 100);
         this.maxSpeed = maxSpeed;
         this.weight = weight;
@@ -27,18 +47,27 @@ public class ElLocomotive extends Locomotive {
         this.frontBumper = frontBumper;
         this.upperPipe = upperPipe;
         this.digit = digit;
+        objectProperties.add(maxSpeed);
+        objectProperties.add(weight);
+        objectProperties.add(mainColor);
+        objectProperties.add(dopColor);
+        objectProperties.add(backLine);
+        objectProperties.add(frontBumper);
+        objectProperties.add(upperPipe);
+        objectProperties.add(digit);
+        objectProperties.add(addition);
         switch (addition) {
-            case 0:
+            case "Rhombus":
                 this.additions = new Horns(digit);
                 this.addition=addition;
                 this.digit=digit;
                 break;
-            case 1:
+            case "Oval":
                 this.additions = new HornsRect(digit);
                 this.addition=addition;
                 this.digit=digit;
                 break;
-            case 2:
+            case "Rectangle":
                 this.additions = new HornsOval(digit);
                 this.addition=addition;
                 this.digit=digit;
@@ -59,14 +88,23 @@ public class ElLocomotive extends Locomotive {
             backLine = Boolean.parseBoolean(infoStrs[4]);
             frontBumper = Boolean.parseBoolean(infoStrs[5]);
             upperPipe = Boolean.parseBoolean(infoStrs[6]);
+            objectProperties.add(maxSpeed);
+            objectProperties.add(weight);
+            objectProperties.add(mainColor);
+            objectProperties.add(dopColor);
+            objectProperties.add(backLine);
+            objectProperties.add(frontBumper);
+            objectProperties.add(upperPipe);
+            objectProperties.add(digit);
+            objectProperties.add(addition);
             switch (infoStrs[8]) {
-                case "0":
+                case "Rhombus":
                     this.additions = new Horns(Integer.parseInt(infoStrs[7]));
                     break;
-                case "1":
+                case "Oval":
                     this.additions = new HornsRect(Integer.parseInt(infoStrs[7]));
                     break;
-                case "2":
+                case "Rectangle":
                     this.additions = new HornsOval(Integer.parseInt(infoStrs[7]));
                     break;
             }
@@ -105,6 +143,13 @@ public class ElLocomotive extends Locomotive {
         this.frontBumper = frontBumper;
     }
 
+    public String getAddition() {
+        return addition;
+    }
+
+    public int getDigit() {
+        return digit;
+    }
 
     public void draw(Graphics g) {
 
@@ -133,6 +178,119 @@ public class ElLocomotive extends Locomotive {
         return super.toString() + separator + dopColor.getRed() + separatorForColor + dopColor.getGreen() +
                 separatorForColor + dopColor.getBlue() + separator + backLine + separator + frontBumper
         + separator + upperPipe + separator + digit + separator + addition ;
+    }
+
+    public boolean Equals(ElLocomotive otherElLocomotive) {
+        if (otherElLocomotive == null) {
+            return false;
+        }
+        if (this.getClass().getName() != otherElLocomotive.getClass().getName()) {
+            return false;
+        }
+        if (this.maxSpeed != otherElLocomotive.maxSpeed) {
+            return false;
+        }
+        if (this.weight != otherElLocomotive.weight) {
+            return false;
+        }
+        if (this.mainColor != otherElLocomotive.mainColor) {
+            return false;
+        }
+        if (this.dopColor != otherElLocomotive.dopColor) {
+            return false;
+        }
+        if (this.backLine != otherElLocomotive.backLine) {
+            return false;
+        }
+        if (this.frontBumper != otherElLocomotive.frontBumper) {
+            return false;
+        }
+        if (this.upperPipe != otherElLocomotive.upperPipe) {
+            return false;
+        }
+        if (this.addition != otherElLocomotive.addition) {
+            return false;
+        }
+        if (this.digit != otherElLocomotive.digit) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ElLocomotive)) {
+            return false;
+        } else {
+            return Equals((ElLocomotive) obj);
+        }
+    }
+
+    public int compareTo(ElLocomotive anotherElLocomotive) {
+        if (this.maxSpeed != anotherElLocomotive.maxSpeed) {
+            return this.maxSpeed - anotherElLocomotive.maxSpeed;
+        }
+        if (this.weight != anotherElLocomotive.weight) {
+            return this.weight - anotherElLocomotive.weight;
+        }
+        if (this.mainColor.getRGB() != anotherElLocomotive.mainColor.getRGB()) {
+            return this.mainColor.getRGB() - anotherElLocomotive.mainColor.getRGB();
+        }
+        if (this.dopColor.getRGB() != anotherElLocomotive.dopColor.getRGB()) {
+            return this.dopColor.getRGB() - anotherElLocomotive.dopColor.getRGB();
+        }
+        if (this.backLine != anotherElLocomotive.backLine) {
+            if (this.backLine) {
+                return 1;
+            }
+            return -1;
+        }
+        if (this.frontBumper != anotherElLocomotive.frontBumper) {
+            if (this.frontBumper) {
+                return 1;
+            }
+            return -1;
+        }
+        if (this.upperPipe != anotherElLocomotive.upperPipe) {
+            if (this.upperPipe) {
+                return 1;
+            }
+            return -1;
+        }
+        if (this.digit != anotherElLocomotive.digit) {
+            return this.digit - anotherElLocomotive.digit;
+        }
+        if (this.addition != anotherElLocomotive.addition) {
+            int firstLocomotiveHornsID = 0;
+            int secondLocomotiveHornID = 0;
+            switch (this.addition) {
+                case "Rhombus":
+                    firstLocomotiveHornsID = 0;
+                    break;
+                case "Oval":
+                    firstLocomotiveHornsID = 1;
+                    break;
+                case "Rectangle":
+                    firstLocomotiveHornsID = 2;
+                    break;
+            }
+            switch (anotherElLocomotive.addition) {
+                case "Rhombus":
+                    secondLocomotiveHornID = 0;
+                    break;
+                case "Oval":
+                    secondLocomotiveHornID = 1;
+                    break;
+                case "Rectangle":
+                    secondLocomotiveHornID = 2;
+                    break;
+            }
+            return firstLocomotiveHornsID - secondLocomotiveHornID;
+        }
+        return 0;
     }
 
 }

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import Frame.DepoAlreadyHaveThisLocomotiveException;
 import Frame.LocomotiveNotFoundException;
 import Frame.DepoOverflowException;
 
@@ -97,7 +99,7 @@ public class DepoCollection {
         return true;
     }
 
-    public void loadChosenDepoData(String filename) throws IOException, DepoOverflowException {
+    public void loadChosenDepoData(String filename) throws IOException, DepoOverflowException, DepoAlreadyHaveThisLocomotiveException {
 
         FileReader fileReader = new FileReader(filename);
         Scanner scanner = new Scanner(fileReader);
@@ -150,7 +152,7 @@ public class DepoCollection {
         fileReader.close();
     }
 
-    public void loadAllData(String filename) throws IOException, DepoOverflowException {
+    public void loadAllData(String filename) throws IOException, DepoOverflowException, DepoAlreadyHaveThisLocomotiveException {
 
         FileReader fileReader = new FileReader(filename);
         Scanner scanner = new Scanner(fileReader);

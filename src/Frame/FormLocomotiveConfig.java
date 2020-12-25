@@ -340,7 +340,7 @@ public class FormLocomotiveConfig {
         frame.repaint();
     }
 
-    private void setElLocomotive(Color main, Color dop, boolean bLine, boolean fBumper, boolean uPipe, int shape,int addition) {
+    private void setElLocomotive(Color main, Color dop, boolean bLine, boolean fBumper, boolean uPipe, String shape,int addition) {
         locomotive =new ElLocomotive(150, 1500, main, dop, bLine, fBumper, uPipe, shape, addition);
         drawPanel.setLocomotive(locomotive);
         drawPanel.getLocomotive().setPosition(80, 50, 850, 450);
@@ -359,16 +359,16 @@ public class FormLocomotiveConfig {
         return 4;
     }
 
-    private int additionShape(String str1){
+    private String additionShape(String str1){
         switch(str1) {
             case "Rhombus":
-                return 0;
-            case "Square":
-                return 1;
+                return "Rhombus";
             case "Oval":
-                return 2;
+                return "Oval";
+            case "Square":
+                return "Rectangle";
         }
-        return 0;
+        return "Rhombus";
     }
 
 

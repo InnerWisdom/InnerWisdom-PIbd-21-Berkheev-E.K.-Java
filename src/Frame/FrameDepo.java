@@ -1,8 +1,6 @@
 package Frame;
 
 import Logics.*;
-
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -40,7 +38,6 @@ public class FrameDepo {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLayout(null);
-
 
         JMenuBar depoBar = new JMenuBar();
         frame.setJMenuBar(depoBar);
@@ -88,9 +85,11 @@ public class FrameDepo {
         fieldDepoName = new JTextField();
         JButton buttonAddDepo = new JButton("Add depo");
         JButton buttonRemoveDepo = new JButton("Delete depo");
+        JButton buttonSort = new JButton("Sort");
 
         frame.getContentPane().add(buttonCreateLocomotive);
         frame.getContentPane().add(buttonMoveToLinkedList);
+        frame.getContentPane().add(buttonSort);
         frame.getContentPane().add(drawPanelDepo);
         takeGroupBox.add(fieldTakeIndex);
         takeGroupBox.add(buttonMoveToLinkedList);
@@ -137,7 +136,8 @@ public class FrameDepo {
         buttonMoveToLinkedList.setBounds(20, 60, 160, 30);
         buttonGetFromLinkedList.setBounds(20, 100, 160, 30);
 
-        depoGroupBox.setBounds(770, 245, 200, 300);
+        depoGroupBox.setBounds(770, 245, 200, 400);
+        buttonSort.setBounds(790, 545, 160, 30);
         depoGroupBox.setLayout(null);
         labelDepoName.setBounds(30, 20, 75, 30);
         fieldDepoName.setBounds(105, 20, 75, 30);
@@ -155,13 +155,20 @@ public class FrameDepo {
         buttonGetFromLinkedList.addActionListener(e -> moveToFrame());
         buttonAddDepo.addActionListener(e -> addDepo());
         buttonRemoveDepo.addActionListener(e -> removeDepo());
+        buttonSort.addActionListener(e -> sort());
         listBoxDepos.addListSelectionListener(e -> listListener());
 
         frame.repaint();
     }
 
+    private void sort(){
+        if (listBoxDepos.getSelectedIndex() >= 0){
+            depoCollection.get(listBoxDepos.getSelectedValue()).sortDepo();
+        }
+        frame.repaint();
+    }
     private void createLocomotive() {
-        FormLocomotiveConfig formLocomotiveConfig = new FormLocomotiveConfig(this);
+        new FormLocomotiveConfig(this);
     }
 
     public void addLocomotive(Locomotive locomotive) {
@@ -177,6 +184,9 @@ public class FrameDepo {
                     logger.info("Can't place locomotive");
                     JOptionPane.showMessageDialog(frame, "Can't place locomotive");
                 }
+            }catch (DepoAlreadyHaveThisLocomotiveException ex) {
+                logger.error("There is such locomotive in depo already");
+                JOptionPane.showMessageDialog(frame, "There is such locomotive in depo already");
             } catch (DepoOverflowException ex) {
                 logger.error("Overflow");
                 JOptionPane.showMessageDialog(frame, "Overflow");
