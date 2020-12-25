@@ -39,7 +39,6 @@ public class FrameDepo {
         frame.setResizable(false);
         frame.setLayout(null);
 
-
         JMenuBar depoBar = new JMenuBar();
         frame.setJMenuBar(depoBar);
 
